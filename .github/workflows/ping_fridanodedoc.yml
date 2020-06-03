@@ -1,0 +1,18 @@
+# This worflow notifies frenchyeti/frida-node-doc repository to generate doc and publish it 
+
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  notify_codedoc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: PING frenchyeti/frida-node-doc repository
+        run: |
+          curl -X POST https://api.github.com/repos/frenchyeti/frida-node-doc/dispatches \
+          -H 'Accept: application/vnd.github.everest-preview+json' \
+          -u ${{ secrets.FRIDANODEDOC_ACCESS_TOKEN }} \
+          --data '{"event_type": "build-doc", "client_payload": {}}'
